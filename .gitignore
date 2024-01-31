@@ -29,3 +29,5 @@ mini_games/
 /htmlcov
 
 /docs
+
+sc2/base.py
