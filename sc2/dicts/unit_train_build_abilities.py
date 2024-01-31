@@ -6,8 +6,8 @@ from typing import Dict, Union
 from sc2.ids.ability_id import AbilityId
 from sc2.ids.unit_typeid import UnitTypeId
 
-# from ..ids.buff_id import BuffId
-# from ..ids.effect_id import EffectId
+# from sc2.ids.buff_id import BuffId
+# from sc2.ids.effect_id import EffectId
 
 TRAIN_INFO: Dict[UnitTypeId, Dict[UnitTypeId, Dict[str, Union[AbilityId, bool, UnitTypeId]]]] = {
     UnitTypeId.BARRACKS: {
@@ -44,12 +44,6 @@ TRAIN_INFO: Dict[UnitTypeId, Dict[UnitTypeId, Dict[str, Union[AbilityId, bool, U
         UnitTypeId.BROODLORD: {
             'ability': AbilityId.MORPHTOBROODLORD_BROODLORD,
             'required_building': UnitTypeId.GREATERSPIRE
-        }
-    },
-    UnitTypeId.CREEPTUMOR: {
-        UnitTypeId.CREEPTUMOR: {
-            'ability': AbilityId.BUILD_CREEPTUMOR_TUMOR,
-            'requires_placement_position': True
         }
     },
     UnitTypeId.CREEPTUMORBURROWED: {
@@ -606,7 +600,7 @@ TRAIN_INFO: Dict[UnitTypeId, Dict[UnitTypeId, Dict[str, Union[AbilityId, bool, U
     },
     UnitTypeId.ZERGLING: {
         UnitTypeId.BANELING: {
-            'ability': AbilityId.MORPHZERGLINGTOBANELING_BANELING,
+            'ability': AbilityId.MORPHTOBANELING_BANELING,
             'required_building': UnitTypeId.BANELINGNEST
         }
     }

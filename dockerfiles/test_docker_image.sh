@@ -2,6 +2,9 @@
 # Run via
 # sh dockerfiles/test_docker_image.sh
 
+# Stop on error https://stackoverflow.com/a/2871034/10882657
+set -e
+
 # Set which versions to use
 export VERSION_NUMBER=${VERSION_NUMBER:-0.9.9}
 export PYTHON_VERSION=${PYTHON_VERSION:-3.10}
@@ -43,6 +46,8 @@ docker exec -i test_container bash -c "pip install poetry \
 
 # Run various test bots
 docker exec -i test_container bash -c "cd python-sc2 && poetry run python test/travis_test_script.py test/autotest_bot.py"
+docker exec -i test_container bash -c "cd python-sc2 && poetry run python test/travis_test_script.py test/queries_test_bot.py"
+#docker exec -i test_container bash -c "cd python-sc2 && poetry run python test/travis_test_script.py test/damagetest_bot.py"
 docker exec -i test_container bash -c "cd python-sc2 && poetry run python test/run_example_bots_vs_computer.py"
 
 # Command for entering the container to debug if something went wrong:

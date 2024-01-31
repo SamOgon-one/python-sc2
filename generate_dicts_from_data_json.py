@@ -8,16 +8,11 @@ This script does the following:
 
 data.json origin:
 https://github.com/BurnySc2/sc2-techtree/tree/develop/data
-
-json viewers to inspect the data.json manually:
-http://jsonviewer.stack.hu/
-https://jsonformatter.org/json-viewer
 """
 import json
 import lzma
 import os
 import pickle
-import subprocess
 from collections import OrderedDict
 from pathlib import Path
 from typing import Dict, List, Optional, Set, Union
@@ -67,9 +62,6 @@ def dump_dict_to_file(
         logger.info(my_dict)
         f.write(repr(my_dict))
 
-    # Apply formatting
-    subprocess.run(["poetry", "run", "yapf", file_path, "-i"])
-
 
 def generate_init_file(dict_file_paths: List[Path], file_path: Path, file_header: str):
     base_file_names = sorted(path.stem for path in dict_file_paths)
@@ -81,9 +73,6 @@ def generate_init_file(dict_file_paths: List[Path], file_path: Path, file_header
         all_line = f"__all__ = {base_file_names}"
         logger.info(all_line)
         f.write(all_line)
-
-    # Apply formatting
-    subprocess.run(["poetry", "run", "yapf", file_path, "-i"])
 
 
 def get_unit_train_build_abilities(data):
@@ -130,6 +119,7 @@ def get_unit_train_build_abilities(data):
                 AbilityId.MORPHTOBROODLORD_BROODLORD,
                 AbilityId.MORPHZERGLINGTOBANELING_BANELING,
                 AbilityId.MORPHTORAVAGER_RAVAGER,
+                AbilityId.MORPHTOBANELING_BANELING,
                 AbilityId.MORPH_LURKER,
                 AbilityId.UPGRADETOLAIR_LAIR,
                 AbilityId.UPGRADETOHIVE_HIVE,
@@ -441,14 +431,6 @@ def generate_redirect_abilities_dict(data: dict):
     _unit_data = data["Unit"]
     _upgrade_data = data["Upgrade"]
 
-    # Load pickled game data files
-    pickled_file_path = get_map_file_path()
-    assert pickled_file_path.is_file(), f"Could not find pickled data file {pickled_file_path}"
-    logger.info(f"Loading pickled game data file {pickled_file_path}")
-    with lzma.open(pickled_file_path.absolute(), "rb") as f:
-        raw_game_data, raw_game_info, raw_observation = pickle.load(f)
-        game_data = GameData(raw_game_data.data)
-
     all_redirect_abilities: Dict[AbilityId, AbilityId] = OrderedDict2()
 
     entry: dict
@@ -460,10 +442,11 @@ def generate_redirect_abilities_dict(data: dict):
             logger.info(f"Error with ability id value {ability_id_value}")
             continue
 
-        generic_redirect_ability_value: int = game_data.abilities[ability_id_value]._proto.remaps_to_ability_id
-        if generic_redirect_ability_value:
-            # Might be 0 if it has no redirect ability
-            all_redirect_abilities[ability_id] = AbilityId(generic_redirect_ability_value)
+        generic_redirect_ability_value = entry.get("remaps_to_ability_id", 0)
+        if generic_redirect_ability_value == 0:
+            # No generic ability available
+            continue
+        all_redirect_abilities[ability_id] = AbilityId(generic_redirect_ability_value)
 
     return all_redirect_abilities
 

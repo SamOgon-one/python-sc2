@@ -2,7 +2,6 @@ import os
 import sys
 
 sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
-
 from typing import Dict, List
 
 from loguru import logger
@@ -90,7 +89,7 @@ class TestBot(BotAI):
         from sc2.dicts.upgrade_researched_from import UPGRADE_RESEARCHED_FROM
 
         structure_types: List[UnitTypeId] = sorted(set(UPGRADE_RESEARCHED_FROM.values()), key=lambda data: data.name)
-        upgrade_types: List[UpgradeId] = list(UPGRADE_RESEARCHED_FROM.keys())
+        upgrade_types: List[UpgradeId] = list(UPGRADE_RESEARCHED_FROM)
 
         # TODO if *techlab in name -> spawn rax/ fact / starport next to it
         addon_structures: Dict[str, UnitTypeId] = {
@@ -161,7 +160,6 @@ class TestBot(BotAI):
                 while 1:
                     upgrader_structures: Units = self.structures(structure_type)
                     # Upgrade has been researched, break
-                    # Hi atira monkaBirthday
                     if upgrader_structures:
                         upgrader_structure: Unit = upgrader_structures.closest_to(map_center)
                         if upgrader_structure.is_idle:

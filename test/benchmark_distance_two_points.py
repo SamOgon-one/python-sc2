@@ -1,8 +1,3 @@
-import os
-import sys
-
-sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
-
 import math
 import platform
 import random
@@ -92,17 +87,6 @@ p2_np = np.asarray(p2)
 
 # Correct result to ensure that in the functions the correct result is calculated
 correct_result = distance_to_math_hypot(p1, p2)
-
-# print(p1, p1_np)
-# print(p2, p2_np)
-# print(np.sum((p1_np - p2_np)**2))
-
-# Do one call to jit to precompile once to get more accurate results
-# distance_python_raw_njit(p1_np, p2_np)
-# distance_python_raw_square_njit(p1_np, p2_np)
-# distance_numpy_linalg_norm_njit(p1_np, p2_np)
-# distance_numpy_square_sum_sqrt_njit(p1_np, p2_np)
-# distance_numpy_square_sum_njit(p1_np, p2_np)
 
 
 def check_result(result1, result2, accuracy=1e-5):

@@ -7,8 +7,8 @@ from sc2.ids.ability_id import AbilityId
 from sc2.ids.unit_typeid import UnitTypeId
 from sc2.ids.upgrade_id import UpgradeId
 
-# from ..ids.buff_id import BuffId
-# from ..ids.effect_id import EffectId
+# from sc2.ids.buff_id import BuffId
+# from sc2.ids.effect_id import EffectId
 
 RESEARCH_INFO: Dict[UnitTypeId, Dict[UpgradeId, Dict[str, Union[AbilityId, bool, UnitTypeId, UpgradeId]]]] = {
     UnitTypeId.ARMORY: {
@@ -274,9 +274,6 @@ RESEARCH_INFO: Dict[UnitTypeId, Dict[UpgradeId, Dict[str, Union[AbilityId, bool,
         }
     },
     UnitTypeId.GHOSTACADEMY: {
-        UpgradeId.ENHANCEDSHOCKWAVES: {
-            'ability': AbilityId.GHOSTACADEMYRESEARCH_RESEARCHENHANCEDSHOCKWAVES
-        },
         UpgradeId.PERSONALCLOAKING: {
             'ability': AbilityId.RESEARCH_PERSONALCLOAKING
         }
@@ -426,9 +423,6 @@ RESEARCH_INFO: Dict[UnitTypeId, Dict[UpgradeId, Dict[str, Union[AbilityId, bool,
         },
         UpgradeId.BANSHEESPEED: {
             'ability': AbilityId.RESEARCH_BANSHEEHYPERFLIGHTROTORS
-        },
-        UpgradeId.RAVENCORVIDREACTOR: {
-            'ability': AbilityId.RESEARCH_RAVENCORVIDREACTOR
         }
     },
     UnitTypeId.TEMPLARARCHIVE: {

@@ -1,8 +1,3 @@
-import os
-import sys
-
-sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
-
 import random
 
 import numpy as np
@@ -52,11 +47,6 @@ def distance_matrix_scipy_cdist_jaccard(ps):
 def distance_matrix_scipy_cdist_jensenshannon(ps):
     # Calculate distances between each of the points
     return cdist(ps, ps, "jensenshannon")
-
-
-def distance_matrix_scipy_cdist_kulsinski(ps):
-    # Calculate distances between each of the points
-    return cdist(ps, ps, "kulsinski")
 
 
 def distance_matrix_scipy_cdist_mahalanobis(ps):
@@ -181,11 +171,6 @@ def test_distance_matrix_scipy_cdist_jaccard(benchmark):
 
 def test_distance_matrix_scipy_cdist_jensenshannon(benchmark):
     result = benchmark(distance_matrix_scipy_cdist_jensenshannon, points)
-    # assert check_result(result, correct_result)
-
-
-def test_distance_matrix_scipy_cdist_kulsinski(benchmark):
-    result = benchmark(distance_matrix_scipy_cdist_kulsinski, points)
     # assert check_result(result, correct_result)
 
 
