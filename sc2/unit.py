@@ -1409,8 +1409,7 @@ class Unit:
 
         :param position:
         :param queue:
-        """   
-	# move_check checking if unit does't have same order already
+        """   	
         if not queue and self.is_using_ability(AbilityId.MOVE) and self.order_target == position:        
             return True                    
         
