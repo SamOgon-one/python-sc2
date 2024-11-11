@@ -1369,7 +1369,10 @@ class Unit:
 
         :param target:
         :param queue:
-        """
+        """      
+        if not queue and self.is_using_ability(IS_ATTACKING) and self.order_target == target:
+            return True 
+                
         return self(AbilityId.ATTACK, target=target, queue=queue)
 
     def smart(self, target: Union[Unit, Point2], queue: bool = False) -> Union[UnitCommand, bool]:
@@ -1386,7 +1389,10 @@ class Unit:
 
         :param target:
         :param queue:
-        """
+        """        
+        if not queue and self.is_using_ability(IS_GATHERING) and self.orders[0].target == target.tag:
+            return True 
+
         return self(AbilityId.HARVEST_GATHER, target=target, queue=queue)
 
     def return_resource(self, target: Unit = None, queue: bool = False) -> Union[UnitCommand, bool]:
@@ -1396,33 +1402,18 @@ class Unit:
         :param queue:
         """
         return self(AbilityId.HARVEST_RETURN, target=target, queue=queue)
-
-    def move_org(self, position: Union[Unit, Point2], queue: bool = False) -> Union[UnitCommand, bool]:
+  
+    def move(self, position: Union[Unit, Point2], queue: bool = False) -> Union[UnitCommand, bool]:
         """Orders the unit to move to 'position'.
         Target can be a Unit (to follow that unit) or Point2.
 
         :param position:
         :param queue:
-        """
-        return self(AbilityId.MOVE_MOVE, target=position, queue=queue)
-
-    # move_check checking if unit does't have same order already
-    def move(self, position: Union[Unit, Point2], distance: float = 1.0, queue: bool = False) -> Union[UnitCommand, bool]:
-        """ Same as move with: When target close enought to last move command don't order it again
-        Note: queue is third argument, if you use old move command without argument name of queue=
+        """   
+	# move_check checking if unit does't have same order already
+        if not queue and self.is_using_ability(AbilityId.MOVE) and self.order_target == position:        
+            return True                    
         
-        Instead of calculate distance, for close position we can check if position.rounded == target.rounded
-        """
-        if self.orders and self.orders[0].ability.id in {AbilityId.MOVE}: 
-            # target is an Unit        
-            if isinstance(self.orders[0].target, int) and isinstance(position, Unit) and self.orders[0].target == position.position:
-                return True 
-            # rarget is a proto point
-            if not isinstance(self.orders[0].target, int):
-                target_position = Point2.from_proto(self.orders[0].target)
-                if target_position == position or position.distance_to(target_position) < distance:
-                    return True
-		
         return self(AbilityId.MOVE_MOVE, target=position, queue=queue)
 
     def hold_position(self, queue: bool = False) -> Union[UnitCommand, bool]:
